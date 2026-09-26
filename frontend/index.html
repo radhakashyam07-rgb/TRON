@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TRON</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #05070b;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+        }
+
+        .app {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            border-bottom: 1px solid #1d2633;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            letter-spacing: 5px;
+        }
+
+        .status {
+            font-size: 13px;
+            color: #7f8b9a;
+        }
+
+        main {
+            width: 92%;
+            max-width: 900px;
+            margin: auto;
+            text-align: center;
+            padding: 60px 0;
+        }
+
+        .title {
+            font-size: clamp(55px, 14vw, 110px);
+            letter-spacing: 15px;
+            margin: 0;
+        }
+
+        .tagline {
+            color: #8993a1;
+            margin: 10px 0 45px;
+            font-size: 16px;
+        }
+
+        .search {
+            display: flex;
+            gap: 10px;
+            max-width: 760px;
+            margin: auto;
+        }
+
+        #query {
+            flex: 1;
+            padding: 18px;
+            border-radius: 14px;
+            border: 1px solid #293444;
+            background: #0d1118;
+            color: white;
+            outline: none;
+            font-size: 16px;
+        }
+
+        #query:focus {
+            border-color: #65758b;
+        }
+
+        button {
+            padding: 0 25px;
+            border: 0;
+            border-radius: 14px;
+            background: white;
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .buttons {
+            margin-top: 18px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .secondary {
+            padding: 12px 20px;
+            background: #111720;
+            color: white;
+            border: 1px solid #293444;
+        }
+
+        #output {
+            max-width: 760px;
+            margin: 35px auto 0;
+            text-align: left;
+        }
+
+        .card {
+            background: #0d1118;
+            border: 1px solid #1d2633;
+            border-radius: 14px;
+            padding: 20px;
+            margin-top: 12px;
+        }
+
+        .card h3 {
+            margin-top: 0;
+        }
+
+        .muted {
+            color: #8993a1;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #596474;
+            font-size: 12px;
+        }
+
+        @media (max-width: 600px) {
+            .search {
+                flex-direction: column;
+            }
+
+            button {
+                height: 52px;
+            }
+
+            .title {
+                letter-spacing: 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <header>
+        <div class="logo">TRON</div>
+        <div class="status">P-01 • PRIVATE CORE</div>
+    </header>
+
+    <main>
+
+        <h1 class="title">TRON</h1>
+
+        <p class="tagline">
+            Search. Understand. Create.
+        </p>
+
+        <div class="search">
+
+            <input
+                id="query"
+                type="text"
+                placeholder="Ask TRON or search..."
+                autocomplete="off"
+            >
+
+            <button onclick="tronSearch()">
+                Search
+            </button>
+
+        </div>
+
+        <div class="buttons">
+
+            <button class="secondary" onclick="openSARA()">
+                Ask SARA
+            </button>
+
+        </div>
+
+        <section id="output"></section>
+
+    </main>
+
+    <footer>
+        TRON P-01 • SARA AI Core
+    </footer>
+
+</div>
+
+<script>
+
+function getQuery() {
+    return document.getElementById("query").value.trim();
+}
+
+function tronSearch() {
+
+    const query = getQuery();
+    const output = document.getElementById("output");
+
+    if (!query) {
+        output.innerHTML = `
+            <div class="card">
+                <p>Please enter a search.</p>
+            </div>
+        `;
+        return;
+    }
+
+    output.innerHTML = `
+        <div class="card">
+            <h3>TRON Search</h3>
+            <p>You searched for:</p>
+            <strong>${escapeHTML(query)}</strong>
+            <p class="muted">
+                TRON Search Engine backend will be connected here.
+            </p>
+        </div>
+    `;
+}
+
+function openSARA() {
+
+    const output = document.getElementById("output");
+
+    output.innerHTML = `
+        <div class="card">
+            <h3>🤖 SARA</h3>
+            <p>Hello. SARA AI interface is ready.</p>
+            <p class="muted">
+                The private SARA AI core will be connected in a later stage.
+            </p>
+        </div>
+    `;
+}
+
+function escapeHTML(text) {
+
+    const element = document.createElement("div");
+
+    element.textContent = text;
+
+    return element.innerHTML;
+}
+
+document.getElementById("query").addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Enter") {
+            tronSearch();
+        }
+
+    }
+);
+
+</script>
+
+</body>
+  </html>
