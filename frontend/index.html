@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>TRON</title>
+    <title>TRON P-01</title>
 
     <style>
         * {
@@ -14,144 +15,142 @@
         body {
             margin: 0;
             min-height: 100vh;
-            background: #05070b;
-            color: #ffffff;
+            background: #050505;
+            color: white;
             font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
         }
 
         .app {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            width: 100%;
+            max-width: 900px;
+            padding: 30px 20px;
         }
 
         header {
-            height: 70px;
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            padding: 0 24px;
-            border-bottom: 1px solid #1d2633;
+            align-items: center;
+            border-bottom: 1px solid #333;
+            padding-bottom: 15px;
         }
 
         .logo {
-            font-size: 25px;
+            font-size: 26px;
             font-weight: bold;
             letter-spacing: 5px;
         }
 
         .status {
-            font-size: 13px;
-            color: #7f8b9a;
+            font-size: 12px;
+            color: #aaa;
         }
 
-        main {
-            width: 92%;
-            max-width: 900px;
-            margin: auto;
+        .hero {
             text-align: center;
-            padding: 60px 0;
+            margin-top: 90px;
         }
 
-        .title {
-            font-size: clamp(55px, 14vw, 110px);
+        .hero h1 {
+            font-size: 64px;
             letter-spacing: 15px;
             margin: 0;
         }
 
-        .tagline {
-            color: #8993a1;
-            margin: 10px 0 45px;
-            font-size: 16px;
+        .hero p {
+            color: #999;
+            margin-top: 15px;
         }
 
-        .search {
+        .search-box {
+            margin: 40px auto 20px;
             display: flex;
+            max-width: 700px;
             gap: 10px;
-            max-width: 760px;
-            margin: auto;
         }
 
-        #query {
+        input {
             flex: 1;
-            padding: 18px;
-            border-radius: 14px;
-            border: 1px solid #293444;
-            background: #0d1118;
+            padding: 16px;
+            border-radius: 10px;
+            border: 1px solid #444;
+            background: #111;
             color: white;
-            outline: none;
             font-size: 16px;
-        }
-
-        #query:focus {
-            border-color: #65758b;
+            outline: none;
         }
 
         button {
-            padding: 0 25px;
-            border: 0;
-            border-radius: 14px;
-            background: white;
-            color: black;
-            font-weight: bold;
+            padding: 14px 20px;
+            border-radius: 10px;
+            border: 1px solid #555;
+            background: #181818;
+            color: white;
             cursor: pointer;
         }
 
-        .buttons {
-            margin-top: 18px;
-            display: flex;
-            justify-content: center;
-            gap: 12px;
+        button:hover {
+            background: #252525;
         }
 
-        .secondary {
-            padding: 12px 20px;
-            background: #111720;
-            color: white;
-            border: 1px solid #293444;
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
         }
 
         #output {
-            max-width: 760px;
-            margin: 35px auto 0;
-            text-align: left;
-        }
-
-        .card {
-            background: #0d1118;
-            border: 1px solid #1d2633;
-            border-radius: 14px;
+            max-width: 700px;
+            margin: 35px auto;
             padding: 20px;
-            margin-top: 12px;
+            min-height: 100px;
+            border: 1px solid #333;
+            border-radius: 12px;
+            background: #0d0d0d;
+            white-space: normal;
         }
 
-        .card h3 {
-            margin-top: 0;
+        .result {
+            padding: 15px 0;
+            border-bottom: 1px solid #292929;
         }
 
-        .muted {
-            color: #8993a1;
+        .result:last-child {
+            border-bottom: none;
+        }
+
+        .result-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .result-url {
+            color: #777;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .result-content {
+            color: #bbb;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        .sara-answer {
+            line-height: 1.6;
+            color: #ddd;
+        }
+
+        .error {
+            color: #ff7777;
         }
 
         footer {
             text-align: center;
-            padding: 20px;
-            color: #596474;
+            color: #666;
             font-size: 12px;
-        }
-
-        @media (max-width: 600px) {
-            .search {
-                flex-direction: column;
-            }
-
-            button {
-                height: 52px;
-            }
-
-            .title {
-                letter-spacing: 8px;
-            }
+            margin-top: 80px;
         }
     </style>
 </head>
@@ -165,15 +164,17 @@
         <div class="status">P-01 • PRIVATE CORE</div>
     </header>
 
-    <main>
 
-        <h1 class="title">TRON</h1>
+    <main class="hero">
 
-        <p class="tagline">
+        <h1>TRON</h1>
+
+        <p>
             Search. Understand. Create.
         </p>
 
-        <div class="search">
+
+        <div class="search-box">
 
             <input
                 id="query"
@@ -188,17 +189,22 @@
 
         </div>
 
-        <div class="buttons">
 
-            <button class="secondary" onclick="openSARA()">
+        <div class="actions">
+
+            <button onclick="openSARA()">
                 Ask SARA
             </button>
 
         </div>
 
-        <section id="output"></section>
+
+        <div id="output">
+            TRON Core ready.
+        </div>
 
     </main>
+
 
     <footer>
         TRON P-01 • SARA AI Core
@@ -206,74 +212,255 @@
 
 </div>
 
+
 <script>
 
+const API = "http://127.0.0.1:8080";
+
+
 function getQuery() {
-    return document.getElementById("query").value.trim();
+
+    return document
+        .getElementById("query")
+        .value
+        .trim();
+
 }
 
-function tronSearch() {
+
+/* -------------------------
+   TRON SEARCH
+------------------------- */
+
+async function tronSearch() {
 
     const query = getQuery();
-    const output = document.getElementById("output");
+
+    const output =
+        document.getElementById("output");
+
 
     if (!query) {
-        output.innerHTML = `
-            <div class="card">
-                <p>Please enter a search.</p>
-            </div>
-        `;
+
+        output.innerHTML =
+            "Enter something to search.";
+
         return;
     }
 
-    output.innerHTML = `
-        <div class="card">
-            <h3>TRON Search</h3>
-            <p>You searched for:</p>
-            <strong>${escapeHTML(query)}</strong>
-            <p class="muted">
-                TRON Search Engine backend will be connected here.
-            </p>
-        </div>
-    `;
+
+    output.innerHTML =
+        "TRON is searching...";
+
+
+    try {
+
+        const response = await fetch(
+            API + "/api/search",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body: JSON.stringify({
+                    query: query
+                })
+            }
+        );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            output.innerHTML =
+                `<div class="error">
+                    ${escapeHTML(data.error)}
+                </div>`;
+
+            return;
+        }
+
+
+        if (!data.results ||
+            data.results.length === 0) {
+
+            output.innerHTML =
+                "No TRON results found.";
+
+            return;
+        }
+
+
+        output.innerHTML =
+            data.results
+                .map(result => `
+
+                    <div class="result">
+
+                        <div class="result-title">
+                            ${escapeHTML(result.title)}
+                        </div>
+
+                        <div class="result-url">
+                            ${escapeHTML(result.url)}
+                        </div>
+
+                        <div class="result-content">
+                            ${escapeHTML(result.content)}
+                        </div>
+
+                    </div>
+
+                `)
+                .join("");
+
+    }
+
+    catch (error) {
+
+        output.innerHTML = `
+            <div class="error">
+                TRON Core is not reachable.
+                <br><br>
+                Start the TRON backend server first.
+            </div>
+        `;
+
+    }
+
 }
 
-function openSARA() {
 
-    const output = document.getElementById("output");
+/* -------------------------
+   SARA
+------------------------- */
 
-    output.innerHTML = `
-        <div class="card">
-            <h3>🤖 SARA</h3>
-            <p>Hello. SARA AI interface is ready.</p>
-            <p class="muted">
-                The private SARA AI core will be connected in a later stage.
-            </p>
-        </div>
-    `;
+async function openSARA() {
+
+    const message = getQuery();
+
+    const output =
+        document.getElementById("output");
+
+
+    if (!message) {
+
+        output.innerHTML =
+            "Type a message for SARA first.";
+
+        return;
+    }
+
+
+    output.innerHTML =
+        "SARA is thinking...";
+
+
+    try {
+
+        const response = await fetch(
+            API + "/api/sara",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body: JSON.stringify({
+                    message: message
+                })
+            }
+        );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            output.innerHTML =
+                `<div class="error">
+                    ${escapeHTML(data.error)}
+                </div>`;
+
+            return;
+        }
+
+
+        output.innerHTML = `
+            <div class="sara-answer">
+
+                <strong>SARA</strong>
+
+                <br><br>
+
+                ${escapeHTML(data.answer)}
+
+            </div>
+        `;
+
+    }
+
+    catch (error) {
+
+        output.innerHTML = `
+            <div class="error">
+                SARA Core is not reachable.
+                <br><br>
+                Start the TRON backend server first.
+            </div>
+        `;
+
+    }
+
 }
+
+
+/* -------------------------
+   SECURITY
+------------------------- */
 
 function escapeHTML(text) {
 
-    const element = document.createElement("div");
+    const div =
+        document.createElement("div");
 
-    element.textContent = text;
+    div.textContent = text;
 
-    return element.innerHTML;
+    return div.innerHTML;
+
 }
 
-document.getElementById("query").addEventListener(
-    "keydown",
-    function(event) {
 
-        if (event.key === "Enter") {
-            tronSearch();
+/* -------------------------
+   ENTER KEY
+------------------------- */
+
+document
+    .getElementById("query")
+    .addEventListener(
+        "keydown",
+        function(event) {
+
+            if (event.key === "Enter") {
+
+                tronSearch();
+
+            }
+
         }
-
-    }
-);
+    );
 
 </script>
 
 </body>
-  </html>
+    </html>
