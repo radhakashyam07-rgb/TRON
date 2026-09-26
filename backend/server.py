@@ -1,9 +1,19 @@
-from http.server import BaseHTTPRequestHandler, HTTPServer
+"""
+TRON Backend Server
+P-01
+Connects TRON UI + Search + SARA
+"""
+
 import json
+from http.server import BaseHTTPRequestHandler, HTTPServer
+
+from tron_core import TronCore
 
 
 HOST = "127.0.0.1"
 PORT = 8080
+
+tron = TronCore()
 
 
 class TronHandler(BaseHTTPRequestHandler):
@@ -13,11 +23,42 @@ class TronHandler(BaseHTTPRequestHandler):
         response = json.dumps(data).encode("utf-8")
 
         self.send_response(status)
-        self.send_header("Content-Type", "application/json")
-        self.send_header("Content-Length", str(len(response)))
+
+        self.send_header(
+            "Content-Type",
+            "application/json; charset=utf-8"
+        )
+
+        self.send_header(
+            "Content-Length",
+            str(len(response))
+        )
+
+        self.send_header(
+            "Access-Control-Allow-Origin",
+            "*"
+        )
+
         self.end_headers()
 
         self.wfile.write(response)
+
+
+    def read_json(self):
+
+        length = int(
+            self.headers.get("Content-Length", 0)
+        )
+
+        body = self.rfile.read(length)
+
+        if not body:
+            return {}
+
+        return json.loads(
+            body.decode("utf-8")
+        )
+
 
     def do_GET(self):
 
@@ -31,59 +72,99 @@ class TronHandler(BaseHTTPRequestHandler):
 
             return
 
+
         if self.path == "/api/status":
 
-            self.send_json({
-                "tron": "online",
-                "sara": "initializing",
-                "search": "initializing",
-                "storage": "remote-core"
-            })
+            self.send_json(
+                tron.status()
+            )
 
             return
 
+
         self.send_json({
-            "error": "TRON route not found"
+            "error": "Not found"
         }, 404)
+
 
     def do_POST(self):
 
-        if self.path != "/api/search":
+        try:
+
+            data = self.read_json()
+
+        except Exception:
 
             self.send_json({
-                "error": "TRON route not found"
-            }, 404)
+                "error": "Invalid JSON"
+            }, 400)
 
             return
 
-        length = int(
-            self.headers.get("Content-Length", 0)
-        )
 
-        body = self.rfile.read(length)
+        # -------------------------
+        # TRON SEARCH
+        # -------------------------
 
-        try:
-            data = json.loads(body.decode("utf-8"))
+        if self.path == "/api/search":
 
-            query = data.get("query", "").strip()
+            query = data.get(
+                "query",
+                ""
+            ).strip()
 
             if not query:
+
                 self.send_json({
                     "error": "Search query is empty"
                 }, 400)
+
                 return
 
+            results = tron.search(query)
+
             self.send_json({
-                "engine": "TRON",
                 "query": query,
-                "status": "received",
-                "message": "TRON search engine is ready for its index."
+                "results": results
             })
 
-        except Exception:
+            return
+
+
+        # -------------------------
+        # SARA AI
+        # -------------------------
+
+        if self.path == "/api/sara":
+
+            message = data.get(
+                "message",
+                ""
+            ).strip()
+
+            if not message:
+
+                self.send_json({
+                    "error": "Message is empty"
+                }, 400)
+
+                return
+
+            answer = tron.ask_sara(
+                message
+            )
+
             self.send_json({
-                "error": "Invalid request"
-            }, 400)
+                "message": message,
+                "answer": answer
+            })
+
+            return
+
+
+        self.send_json({
+            "error": "Not found"
+        }, 404)
 
 
 def start_tron():
@@ -93,19 +174,20 @@ def start_tron():
         TronHandler
     )
 
-    print("TRON P-01 Core")
-    print(f"Server: http://{HOST}:{PORT}")
-    print("Status: ONLINE")
+    print("")
+    print("================================")
+    print("          TRON P-01")
+    print("================================")
+    print("TRON Core : ONLINE")
+    print("Search    : ONLINE")
+    print("SARA      : ONLINE")
+    print("Server    : http://127.0.0.1:8080")
+    print("================================")
+    print("")
 
-    try:
-        server.serve_forever()
-
-    except KeyboardInterrupt:
-        print("\nTRON shutting down...")
-
-    finally:
-        server.server_close()
+    server.serve_forever()
 
 
 if __name__ == "__main__":
+
     start_tron()
